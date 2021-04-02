@@ -37,10 +37,11 @@ class Buy {
         $row_user = mysqli_fetch_array($user_query);
 
         if($this->item('price') < $this->user('money')){
-            echo "mrc"
+             $user->getMoney() - $item->getPrice();
             return true;
         } else {
             echo "Tu n'a pas assez smehli";
+            header("index.php");
         }
     }
 
