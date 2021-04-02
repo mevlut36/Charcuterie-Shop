@@ -51,21 +51,21 @@ if (!empty($_POST['admin'])) {
 
         <div class="row">
             <div class="col-md-12">
-                <form action="data.php" method="POST">
+              <form method="POST" action="data.php" class="bg-light p-5" enctype="multipart/form-data">
                 <div class="card h-100 form-control">
-                    <div class="card-body">
+                  <div class="card-body">
                     <strong><h4 class="card-title">Ajouter un article - Admin</h4></strong>
                     <hr>
+                    <label for="fileUpload">Image :</label>
+                    <input type="file" name="photo" id="fileUpload"><br/>
                     <input name="name" type="text" class="form-control" placeholder="Nom de viande"></input><br/>
                     <input name="price" type="text" class="form-control" placeholder="Prix"></input><br/>
                     <textarea name="description" type="text" class="form-control" placeholder="Description"></textarea><br/>
-                    <label for="fileUpload">Image :</label>
-                    <input name="photo" id="fileUpload" class="form-control" type="file"></input><br/><br/>
                     <button type="submit" class="btn btn-primary">Ajouter</button><br/>
                     <a href="index.php">Revenir en arrière</a>
-                    </div>
+                  </div>
                 </div>
-                </form>
+              </form>
             </div>
         </div>
 

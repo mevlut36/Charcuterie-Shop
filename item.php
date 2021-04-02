@@ -1,38 +1,20 @@
 <?php
-session_start(); 
+session_start();
+ini_set('display_errors','off');
+
 $db = mysqli_connect('localhost:3306', 'root', '', 'registration');
 $bdd = new PDO('mysql:host=localhost:3306;dbname=registration;charset=utf8', 'root', '');
-ini_set('display_errors','off');
 
 if (!isset($_SESSION['username'])) { header('location: login.php');}
 
-     
-if(isset($_GET["id"]) && !empty($_GET['id'])) {
-  $sql = "SELECT * FROM meat WHERE id =" . $_GET["id"];
-  $db = new PDO('mysql:host=localhost;port=3306;dbname=items', 'root', '');
-  $request = $db->prepare($sql);
-  $request = $db->query($sql);
-  $art = $request->fetch();
-  $article = $request->fetchAll();
-     
-  $get_id = htmlspecialchars($_GET['id']);
-  $item = $db->prepare('SELECT * FROM meat WHERE id = ?');
-  $item->execute(array($get_id));
-  
-  if($item->rowCount() == 1) {
-    $item = $item->fetch();
-    $id = $item['id'];
-    $name = $item['name'];
-    $description = $item['description'];
-    $price = $item['price'];
-  } else {
-      die('error dont exist');
-    }
-}
-else {
-  Header('Location: index.php');
+include("class/Buy.php");
+include("class/Article.php");
+
+if(array_key_exists('buy', $_POST)) {
+  buy();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,7 +69,10 @@ else {
                 <h4 class="card-title"><?php echo stripslashes($item["name"]) ?></h4>
                 <h5>$<?php echo stripslashes($item["price"]) ?>/kg</h5>
                 <p class="card-text"><?php echo stripslashes($item["description"]) ?></p>
-                <a href="Cart.php?action=ajout&amp;l=NAME&amp;q=QUANTITY&amp;p=PRICE" class="btn btn-primary" onclick="window.open(this.href, '','toolbar=no, location=no, directories=no, status=yes, scrollbars=yes, resizable=yes, copyhistory=no, width=600, height=350'); return false;">Ajouter au panier</a>
+                <form action="" method="POST">
+                  <a href="Cart.php" name="buy" class="btn btn-primary">Ajouter au panier</a><br/>
+                </form>
+                Admin : <a href="delete.php?id=<?= $item['id'] ?>">Supprimer l'article</a>
               </div>
             </div>
           </div>
