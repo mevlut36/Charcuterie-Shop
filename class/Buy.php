@@ -36,13 +36,7 @@ class Buy {
         $user_query = mysqli_query($this->con, "SELECT money FROM users WHERE username='$name'");
         $row_user = mysqli_fetch_array($user_query);
 
-        if($this->item('price') < $this->user('money')){
-             $user->getMoney() - $item->getPrice();
-            return true;
-        } else {
-            echo "Tu n'a pas assez smehli";
-            header("index.php");
-        }
+        //todo
     }
 
 }
