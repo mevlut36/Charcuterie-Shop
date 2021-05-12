@@ -18,17 +18,17 @@
             <a class="nav-link" href="Cart.php"><i class="fas fa-cart-plus"></i></a>
           </li>
           <?php if($_SESSION['username'] == true){
-              $sql = "SELECT * from users WHERE id";
+              $sql = "SELECT * from users WHERE username='" . $_SESSION['username'] . "'";
               $db = new PDO('mysql:host=localhost;port=3306;dbname=registration', 'root', '');
-              $request = $db->prepare($sql);
               $request = $db->query($sql);
               $user = $request->fetch();
+              $_SESSION["money"] = $user["money"];
           ?>
             <li class="nav-item">
-              <a class="nav-link" href="#"><?php echo htmlspecialchars($user["username"]) ?> </a>
+              <a class="nav-link" href="#"><?php echo htmlspecialchars($_SESSION["username"]) ?></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><strong>Crédits :</strong> <?php echo stripslashes($user["money"]) ?>$</a>
+              <a class="nav-link" href="#"><strong>Crédits :</strong> <?php echo htmlspecialchars($_SESSION["money"]) ?>€</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="index.php?logout='1'"><strong>Se déconnecter</strong></a>

@@ -9,10 +9,6 @@ if (isset($_GET['logout'])) {
   unset($_SESSION['username']);
   header("location: login.php");
 }
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,35 +54,22 @@ if (isset($_GET['logout'])) {
             $db = new PDO('mysql:host=localhost;port=3306;dbname=items', 'root', '');
             $request = $db->query($sql);
             while($row = $request->fetch()){
-          ?>
-          <div class="col-lg-4 col-md-6 mb-4">            <div class="card h-100">
-              <a href="item.php?id=<?= $row["id"] ?>"><img class="card-img-top" src="upload/<?= stripslashes($row['name']) ?>.png" alt=""></a>
-                <div class="card-body">
-                  <a href="item.php?id=<?= $row["id"] ?>"><?= stripslashes($row['name']) ?></a>
-                </h4>
-                <h4 class="card-title">
-                <h5>$<?= stripslashes($row['price']) ?>/kg</h5>
-                <p class="card-text"><?= stripslashes($row['description']) ?></p>
+          ?></div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 mb-4">
+              <div class="card h-100">
+                <a href="item.php?id=<?= $row["id"] ?>"><img class="card-img-top" src="img/<?= stripslashes($row['name']) ?>.png" alt=""></a>
+                  <div class="card-body">
+                    <a href="item.php?id=<?= $row["id"] ?>"><?= stripslashes($row['name']) ?></a>
+                  </h4>
+                  <h4 class="card-title">
+                  <h5>€<?= stripslashes($row['price']) ?>/kg</h5>
+                  <p class="card-text"><?= stripslashes($row['description']) ?></p>
+                </div>
               </div>
             </div>
-          </div>
             <?php } ?>
-          <!--
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="img/steak.png" alt=""></a><br/>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="item.php">Boeuf, viande haché</a>
-                </h4>
-                <h5>$7/kg</h5>
-                <p class="card-text">Miam miam on kiffe le boeuf</p>
-              </div>
-            </div>
-          </div>
-          -->
         </div>
-
       </div>
 
     </div>

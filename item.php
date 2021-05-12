@@ -2,17 +2,16 @@
 session_start();
 ini_set('display_errors','off');
 
-$db = mysqli_connect('localhost:3306', 'root', '', 'registration');
 $bdd = new PDO('mysql:host=localhost:3306;dbname=registration;charset=utf8', 'root', '');
 
 if (!isset($_SESSION['username'])) { header('location: login.php');}
-
+if (isset($_GET['logout'])) {
+  session_destroy();
+  unset($_SESSION['username']);
+  header("location: login.php");
+}
 include("class/Buy.php");
 include("class/Article.php");
-
-if(array_key_exists('buy', $_POST)) {
-  buy();
-}
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +28,6 @@ if(array_key_exists('buy', $_POST)) {
 
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
   <link href="css/shop-homepage.css" rel="stylesheet">
 
 </head>
@@ -57,23 +55,26 @@ if(array_key_exists('buy', $_POST)) {
 
           <div class="col-lg-12 col-md-6 mb-4">
             <div class="card h-100">
-			        <div class="col-lg-4 col-md-6 mb-4">
-              <img class="card-img-top" src="upload/<?php echo stripslashes($item['name']) ?>.png" alt="" width="100" height="150">
-			         </div>
-              <div class="card-body">
-                <?php
-                $sql = "SELECT * from meat";
-                $db = new PDO('mysql:host=localhost;port=3306;dbname=items', 'root', '');
-                $req = $db->query($sql);
-                ?>
-                <h4 class="card-title"><?php echo stripslashes($item["name"]) ?></h4>
-                <h5>$<?php echo stripslashes($item["price"]) ?>/kg</h5>
-                <p class="card-text"><?php echo stripslashes($item["description"]) ?></p>
-                <form action="" method="POST">
-                  <a href="Cart.php" name="buy" class="btn btn-primary">Ajouter au panier</a><br/>
-                </form>
-                Admin : <a href="delete.php?id=<?= $item['id'] ?>">Supprimer l'article</a>
-              </div>
+			    <div class="col-lg-4 col-md-6 mb-4">
+              		<img class="card-img-top" src="img/<?php echo stripslashes($item['name']) ?>.png" alt="" width="150" height="150">
+			    </div>
+              	<div class="card-body">
+	                <?php
+	                $sql = "SELECT * from meat";
+	                $db = new PDO('mysql:host=localhost;port=3306;dbname=items', 'root', '');
+	                $req = $db->query($sql);
+	                $row = $req->fetch();
+	                ?>
+	                <h4 class="card-title"><?php echo stripslashes($item["name"]) ?></h4>
+	                <h5>€<?php echo stripslashes($item["price"]) ?>/kg</h5>
+	                <p class="card-text"><?php echo stripslashes($item["description"]) ?></p>
+	                <form action="data_buy.php?id=<?= $row["id"] ?>" method="POST">
+	                  <button type="submit" name="buy" class="btn btn-primary">Payer</button><br/>
+	                </form>
+	                <?php if(!isset($row['admin'])){ ?>
+                	Admin : <a href="delete.php?id=<?php echo stripslashes($row['id']) ?>">Supprimer l'article</a>
+					<?php } ?>
+              	</div>
             </div>
           </div>
 
