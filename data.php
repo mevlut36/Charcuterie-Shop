@@ -1,4 +1,5 @@
 <?php
+
 ini_set("display_errors","on");
 if(isset($_POST["name"], $_POST["price"], $_POST["description"]) && !empty($_POST["name"]) && !empty($_POST["price"]) && !empty($_POST["description"])){
     $name = htmlspecialchars(addslashes($_POST["name"]));
