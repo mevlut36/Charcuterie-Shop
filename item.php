@@ -59,18 +59,17 @@ include("class/Article.php");
               		<img class="card-img-top" src="img/<?php echo stripslashes($item['name']) ?>.png" alt="" width="150" height="150">
 			    </div>
               	<div class="card-body">
-              		<form action="data_buy.php?id=<?= $item["id"] ?>" method="GET">
 	                <?php
-		                $sql = "SELECT * from meat";
-		                $db = new PDO('mysql:host=localhost;port=3306;dbname=items', 'root', '');
-		                $req = $db->query($sql);
-		                $row = $req->fetch();
+	                $sql = "SELECT * from meat";
+	                $db = new PDO('mysql:host=localhost;port=3306;dbname=items', 'root', '');
+	                $req = $db->query($sql);
+	                $row = $req->fetch();
 	                ?>
 	                <h4 class="card-title"><?php echo stripslashes($item["name"]) ?></h4>
-	                <h5 value="$item['price']">€<?php echo stripslashes($item["price"]) ?>/kg</h5>
+	                <h5>€<?php echo stripslashes($item["price"]) ?>/kg</h5>
 	                <p class="card-text"><?php echo stripslashes($item["description"]) ?></p>
-	                
-	                  <button type="submit" name="buy" value="<?php echo stripslashes($item["id"]) ?>" class="btn btn-primary">Payer</button><br/>
+	                <form action="data_buy.php?id=<?= $row["id"] ?>" method="POST">
+	                  <button type="submit" name="buy" class="btn btn-primary">Ajouter au panier</button><br/>
 	                </form>
 	                <?php if(!isset($row['admin'])){ ?>
                 	Admin : <a href="delete.php?id=<?php echo stripslashes($row['id']) ?>">Supprimer l'article</a>
