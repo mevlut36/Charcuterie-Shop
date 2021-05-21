@@ -59,20 +59,21 @@ include("class/Article.php");
               		<img class="card-img-top" src="img/<?php echo stripslashes($item['name']) ?>.png" alt="" width="150" height="150">
 			    </div>
               	<div class="card-body">
+              		<form action="data_buy.php?id=<?= $item["id"] ?>" method="GET">
 	                <?php
-	                $sql = "SELECT * from meat";
-	                $db = new PDO('mysql:host=localhost;port=3306;dbname=items', 'root', '');
-	                $req = $db->query($sql);
-	                $row = $req->fetch();
+		                $sql = "SELECT * from meat";
+		                $db = new PDO('mysql:host=localhost;port=3306;dbname=items', 'root', '');
+		                $req = $db->query($sql);
+		                $row = $req->fetch();
 	                ?>
 	                <h4 class="card-title"><?php echo stripslashes($item["name"]) ?></h4>
-	                <h5>€<?php echo stripslashes($item["price"]) ?>/kg</h5>
+	                <h5 >€<?php echo stripslashes($item["price"]) ?>/kg  (En stock : <?php echo stripslashes($item["stock"]) ?>)</h5>
 	                <p class="card-text"><?php echo stripslashes($item["description"]) ?></p>
-	                <form action="data_buy.php?id=<?= $row["id"] ?>" method="POST">
-	                  <button type="submit" name="buy" class="btn btn-primary">Ajouter au panier</button><br/>
+	                <input type="number" class="col-md-1 form-control" name="quantity" step="1" value="1"></input><br>
+	                  <button type="submit" name="buy" value="<?php echo stripslashes($item["id"]) ?>" class="col-md-3 btn btn-primary form-control">Payer</button><br/>
 	                </form>
-	                <?php if(!isset($row['admin'])){ ?>
-                	Admin : <a href="delete.php?id=<?php echo stripslashes($row['id']) ?>">Supprimer l'article</a>
+	                <?php if(!isset($row['admin'])){ ?><br>
+                	<b>Admin :</b> <a href="delete.php?id=<?php echo stripslashes($row['id']) ?>">Supprimer l'article</a> - <a href="edit.php?id=<?php echo stripslashes($row['id']) ?>">Editer (+ re-stockage)</a>
 					<?php } ?>
               	</div>
             </div>
